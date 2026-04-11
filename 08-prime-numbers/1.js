@@ -10,17 +10,17 @@ while(countNumber < inputPrime) { //when count number who printed < input
     //  why i and devisorForPrime devine on the while loop. because it will restart to starting value (i = 2) && (devisorForPrime = 0)
     let i = 2; // should be same as startPrimeNumber
     let devisorForPrime = 0; //the right result devisor for prime number
-    console.log('check divisor : ' + devisorForPrime);
-    console.log('check i : ' + i);
+    // console.log('check divisor : ' + devisorForPrime);
+    // console.log('check i : ' + i);
 
 
     while(i < startPrimerNumber){ // this while do to test divisor for prime
         if(startPrimerNumber % i === 0){
             devisorForPrime++
-            console.log('divisor on the looping : ' + devisorForPrime)
+            // console.log('divisor on the looping : ' + devisorForPrime)
         }
         i++;
-        console.log('check i on the looping: ' + i);
+        // console.log('check i on the looping: ' + i);
         
     }
 
@@ -29,7 +29,7 @@ while(countNumber < inputPrime) { //when count number who printed < input
         countNumber++;
     }
     startPrimerNumber++;
-    console.log('check value : ' + startPrimerNumber);
+    // console.log('check value : ' + startPrimerNumber);
 
 }
 
