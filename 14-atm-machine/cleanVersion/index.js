@@ -1,20 +1,3 @@
-/*
-Tasks:
-In this assignment, your task is to make a program to simulate an ATM machine.
-Create ten accounts in an array with id 0 to 9, each of the account has initial balance of $100. The system prompts the user to enter an id. If the id is entered incorrectly, ask the user to enter the correct id. Once id is accepted, the main menu is displayed as shown in the sample run. You can enter 1 for viewing the current balance, 2 for withdrawing money, 3 for depositing money, 4 for exiting the main menu. Once you exit, the system will prompt for an id again. Thus, once the system starts, it will not stop.
-*/
-
-// Model (AtmMachine)
-//  - data
-//  - set data
-//  - get data
-
-// Views (AtmMachineView)
-//  - prompView
-
-// Controller (AtmMachineController)
-//  - combine Model and View
-
 const readline = require('readline-sync');
 
 const accounts = new Object();
@@ -24,8 +7,9 @@ for (let i = 0; i < 10; i++){
 
 let selectedUser;
 
+// MODEL
 function AtmMachine() {
-    this._view = new AtmMachineView();
+
     this.getBalance = function(id) {
         return accounts[id];
     }
@@ -40,25 +24,24 @@ function AtmMachine() {
 
     this.exit = function(){
         return selectedUser = null;
-    }
+    };
 
     this.userSelected = function(id){
         this.id = id;
         selectedUser = id
-    }
-    this.askVerificationUser = function() {
-        while (true) {
-        const id = this._view.selectUser();
+    };
 
-        if (id >= 0 && id <= 9) {
-            return id;
+    this.verif = function(id) {
+        this.id = id;
+        if (this.id >= 0 && this.id <= 9) {
+            return true;
         } else {
-            this._view.allertSelectUser();
+            return false;
         }
-    }
-    }
+    };
 };
 
+// view
 function AtmMachineView(){
 
     this.selectUser = function(){
@@ -101,8 +84,9 @@ function AtmMachineView(){
             readline.question('Enter an amount to deposit: '), 10
         );
     }
-}
+};
 
+// CONTROL
 function AtmMachineController() {
     this._board = new AtmMachine();
     this._view = new AtmMachineView();
@@ -110,7 +94,16 @@ function AtmMachineController() {
 
     this.atmStart = function() {
 
-        selectedUser = this._board.askVerificationUser();
+        while(true) {
+            selectedUser = this._view.selectUser();
+            let condition = this._board.verif(selectedUser);
+            if(condition === true) {
+                break;
+            }else {
+                this._view.allertSelectUser();
+            }
+        }
+
         this._view.option();
         while (true) {
             choice = this._view.selectMenu()
@@ -132,13 +125,21 @@ function AtmMachineController() {
                 break
                 case 4:
                 this._board.exit()
-                selectedUser = this._board.askVerificationUser();
+                while(true) {
+                    selectedUser = this._view.selectUser();
+                    let condition = this._board.verif(selectedUser);
+                    if(condition === true) {
+                        break;
+                    }else {
+                        this._view.allertSelectUser();
+                    }
+                }
                 this._view.option();
                 break;
             }
         }
-    }
-}
+    };
+};
 const atm = new AtmMachineController();
 atm.atmStart()
 
